@@ -99,17 +99,17 @@ const StyledLink = styled(Link)({
     },
 });
 const Login = () => {
-    const [email, setEmail] = useState("");
+    const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState("");
 
     const handleSignIn = async (e) => {
         e.preventDefault();
-        const userInfo = { email, password };
+        const userInfo = { identifier , password };
         axios.post('http://localhost:8081/login', userInfo)
             .then(res => {
                 if (res.data === "success") {
-                    setUser(userInfo.email)
+                    setUser(userInfo.identifier)
                     console.log(res);
                     toast.success("User successfully logged in");
                 } else if (res.data === "incorrectPassword") {
@@ -144,11 +144,10 @@ const Login = () => {
                         >
                             <div className="w-full flex justify-center items-center">
                                 <StyledTextField
-                                    label="Email"
+                                    label="Email or Username"
                                     variant="outlined"
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={identifier}
+                                    onChange={(e) => setIdentifier(e.target.value)}
                                     required
                                 />
                             </div>
@@ -166,7 +165,7 @@ const Login = () => {
 
                             <div className="w-full flex justify-center items-center">
                                 <StyledButton type="submit" variant="contained">
-                                Login
+                                    Login
                                 </StyledButton>
                             </div>
 

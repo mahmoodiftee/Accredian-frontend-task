@@ -12,6 +12,7 @@ import {
 import { styled } from "@mui/system";
 import axios from "axios";
 import toast from "react-hot-toast";
+
 const theme = createTheme({
     components: {
         MuiInputBase: {
@@ -28,6 +29,7 @@ const theme = createTheme({
         },
     },
 });
+
 const StyledContainer = styled(Container)({
     marginTop: "10vh",
     display: "flex",
@@ -74,7 +76,6 @@ const StyledTextField = styled(TextField)({
     },
 });
 
-
 const StyledButton = styled(Button)({
     width: "85%",
     marginTop: "7px",
@@ -96,96 +97,125 @@ const StyledLink = styled(Link)({
         color: "#777676",
     },
 });
+
 const Registration = () => {
     const navigate = useNavigate();
-    const [name, setName] = useState("");
+    const [username, setUsername] = useState(""); 
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        const userInfo = { name, email, password };
+        const userInfo = { username, email, password };
+        if (password !== confirmPassword) {
+            toast.error("Confirmation of the Password didn't match");
+            return;
+        }
 
         if (password.length < 6) {
-            toast.error("Password must be at least 6 characters")
+            toast.error("Password must be at least 6 characters");
+            return;
         }
         if (!/[A-Z]/.test(password)) {
-            toast.error("Password must contain one uppercase letter")
+            toast.error("Password must contain one uppercase letter");
+            return;
         }
         if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)) {
-            toast.error("Password must contain one special character such as ( @ )")
+            toast.error("Password must contain one special character such as ( @ )");
+            return;
         }
 
-        axios.post('http://localhost:8081/signup', userInfo)
-            .then(res => {
+        axios
+            .post("http://localhost:8081/signup", userInfo)
+            .then((res) => {
                 if (res.status === 200 && res.data.affectedRows > 0) {
+                    console.log(res);
                     toast.success("User created successfully");
-                    navigate('/login');
+                    navigate("/login");
                 } else {
                     toast.error("Failed to create user");
                 }
             })
-            .catch(err => toast.error(err));
+            .catch((err) => toast.error(err));
     };
 
     return (
         <ThemeProvider theme={theme}>
-            <StyledContainer component="main">
-                <CssBaseline />
-                <StyledPaper elevation={3}>
-                    <Typography variant="h4" align="center" fontWeight={600} color={'#403f3f'} gutterBottom>
-                        SignUp
-                    </Typography>
-                    <form
-                        onSubmit={handleSignUp}
-                        style={{ width: "100%", padding: "0 15px" }}
+        <StyledContainer component="main">
+            <CssBaseline />
+            <StyledPaper elevation={3}>
+                <Typography
+                    variant="h4"
+                    align="center"
+                    fontWeight={600}
+                    color={"#403f3f"}
+                    gutterBottom
+                >
+                    SignUp
+                </Typography>
+                <form onSubmit={handleSignUp} style={{ width: "100%", padding: "0 15px" }}>
+                    <div className="w-full flex justify-center items-center">
+                        <StyledTextField
+                            label="Username"
+                            variant="outlined"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="w-full flex justify-center items-center">
+                        <StyledTextField
+                            label="Email"
+                            variant="outlined"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="w-full flex justify-center items-center">
+                        <StyledTextField
+                            label="Password"
+                            variant="outlined"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="w-full flex justify-center items-center">
+                        <StyledTextField
+                            label="Confirm Password"
+                            variant="outlined"
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="w-full flex justify-center items-center">
+                        <StyledButton type="submit" variant="contained">
+                            Sign Up
+                        </StyledButton>
+                    </div>
+
+                    <Typography
+                        variant="body2"
+                        align="center"
+                        marginTop={2}
+                        fontWeight={500}
                     >
-                        <div className="w-full flex justify-center items-center">
-                            <StyledTextField
-                                label="Name"
-                                variant="outlined"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="w-full flex justify-center items-center">
-
-                            <StyledTextField
-                                label="Email"
-                                variant="outlined"
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <div className="w-full flex justify-center items-center">
-                            <StyledTextField
-                                label="Password"
-                                variant="outlined"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <div className="w-full flex justify-center items-center">
-                            <StyledButton type="submit" variant="contained">
-                                Sign Up
-                            </StyledButton>
-                        </div>
-
-                        <Typography variant="body2" align="center" marginTop={2} fontWeight={500}>
-                            Already have an account?{" "}
-                            <StyledLink to="/login">SignIn</StyledLink>
-                        </Typography>
-                    </form>
-                </StyledPaper>
-            </StyledContainer>
-        </ThemeProvider>
+                        Already have an account?{" "}
+                        <StyledLink to="/login">SignIn</StyledLink>
+                    </Typography>
+                </form>
+            </StyledPaper>
+        </StyledContainer>
+    </ThemeProvider>
     );
 };
 
