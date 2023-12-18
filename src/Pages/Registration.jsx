@@ -12,7 +12,7 @@ const Registration = () => {
         console.log(name, email, password);
         const userInfo = { name, email, password };
         console.log(userInfo);
-        
+
         if (password.length < 6) {
             toast.error("Password must be at least 6 characters")
         }
@@ -23,8 +23,15 @@ const Registration = () => {
             toast.error("Password must contain one special character such as ( @ )")
         }
         axios.post('http://localhost:8081/signup', userInfo)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .then(res => {
+                if (res.status === 200 && res.data.affectedRows > 0) {
+                    toast.success("User created successfully");
+                } else {
+                    toast.error("Failed to create user");
+                }
+                console.log(res);
+            })
+            .catch(err => toast.error(err));
 
     };
 
