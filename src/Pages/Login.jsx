@@ -1,18 +1,20 @@
 import axios from "axios";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-
+    const [user, setUser] = useState();
     const handleSignIn = async (e) => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
         const userInfo = { email, password };
-    
+
         axios.post('http://localhost:8081/login', userInfo)
             .then(res => {
                 if (res.data === "success") {
+                    setUser(userInfo.email)
                     console.log(res);
                     toast.success("User successfully logged in");
                 } else if (res.data === "incorrectPassword") {
@@ -31,12 +33,12 @@ const Login = () => {
                 toast.error(err);
             });
     };
-    
+
 
     return (
         <div className="mt-10 h-screen">
-            <div className="flex justify-center items-center ">
-                <div className="max-w-[600px] lg:px-10 relative flex flex-col rounded-xl border bg-white bg-clip-border  text-[#403F3F] shadow-none">
+            <div className="flex flex-col justify-center items-center ">
+                <div className="max-w-[600px] mb-10 lg:px-10 relative flex flex-col rounded-xl border bg-white bg-clip-border  text-[#403F3F] shadow-none">
                     <p className="block w-[60%] mx-auto border-b-2 py-2 text-center text-3xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
                         Login
                     </p>
@@ -90,6 +92,11 @@ const Login = () => {
                         </p>
                     </form>
                 </div>
+                {user && (
+                    <p className="mt-4 text-2xl font-bold block text-center leading-relaxed  text-[#403F3F] antialiased">
+                        Welcome, {user}!
+                    </p>
+                )}
             </div>
         </div>
     );
