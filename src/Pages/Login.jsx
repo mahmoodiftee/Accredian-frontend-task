@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 
 const Login = () => {
+
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        console.log(email, password);
+    };
+
     return (
         <div className="mt-10 h-screen">
             <div className="flex justify-center items-center ">
@@ -9,7 +17,7 @@ const Login = () => {
                         Login
                     </p>
                     <form
-                        // onSubmit={handleSignIn}
+                        onSubmit={handleSignIn}
                         className="mt-4 mb-4 w-80 max-w-screen-lg"
                     >
                         <div className="mb-4 flex flex-col gap-4">
