@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {
-    TextField,
-    Button,
-    Typography,
-    Container,
-    Paper,
-    CssBaseline,
-} from "@mui/material";
+import { TextField, Button, Typography, Container, Paper, CssBaseline, } from "@mui/material";
 import { styled } from "@mui/system";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -100,7 +93,7 @@ const StyledLink = styled(Link)({
 
 const Registration = () => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState(""); 
+    const [username, setUsername] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -109,7 +102,7 @@ const Registration = () => {
         e.preventDefault();
         const userInfo = { username, email, password };
         if (password !== confirmPassword) {
-            toast.error("Confirmation of the Password didn't match");
+            toast.error("Confirmation Password didn't match");
             return;
         }
 
@@ -142,80 +135,80 @@ const Registration = () => {
 
     return (
         <ThemeProvider theme={theme}>
-        <StyledContainer component="main">
-            <CssBaseline />
-            <StyledPaper elevation={3}>
-                <Typography
-                    variant="h4"
-                    align="center"
-                    fontWeight={600}
-                    color={"#403f3f"}
-                    gutterBottom
-                >
-                    SignUp
-                </Typography>
-                <form onSubmit={handleSignUp} style={{ width: "100%", padding: "0 15px" }}>
-                    <div className="w-full flex justify-center items-center">
-                        <StyledTextField
-                            label="Username"
-                            variant="outlined"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="w-full flex justify-center items-center">
-                        <StyledTextField
-                            label="Email"
-                            variant="outlined"
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="w-full flex justify-center items-center">
-                        <StyledTextField
-                            label="Password"
-                            variant="outlined"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="w-full flex justify-center items-center">
-                        <StyledTextField
-                            label="Confirm Password"
-                            variant="outlined"
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="w-full flex justify-center items-center">
-                        <StyledButton type="submit" variant="contained">
-                            Sign Up
-                        </StyledButton>
-                    </div>
-
+            <StyledContainer component="main">
+                <CssBaseline />
+                <StyledPaper elevation={3}>
                     <Typography
-                        variant="body2"
+                        variant="h4"
                         align="center"
-                        marginTop={2}
-                        fontWeight={500}
+                        fontWeight={600}
+                        color={"#403f3f"}
+                        gutterBottom
                     >
-                        Already have an account?{" "}
-                        <StyledLink to="/login">SignIn</StyledLink>
+                        SignUp
                     </Typography>
-                </form>
-            </StyledPaper>
-        </StyledContainer>
-    </ThemeProvider>
+                    <form onSubmit={handleSignUp} style={{ width: "100%", padding: "0 15px" }}>
+                        <div className="w-full flex justify-center items-center">
+                            <StyledTextField
+                                label="Username"
+                                variant="outlined"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="w-full flex justify-center items-center">
+                            <StyledTextField
+                                label="Email"
+                                variant="outlined"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="w-full flex justify-center items-center">
+                            <StyledTextField
+                                label="Password"
+                                variant="outlined"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="w-full flex justify-center items-center">
+                            <StyledTextField
+                                label="Confirm Password"
+                                variant="outlined"
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="w-full flex justify-center items-center">
+                            <StyledButton type="submit" variant="contained">
+                                Sign Up
+                            </StyledButton>
+                        </div>
+
+                        <Typography
+                            variant="body2"
+                            align="center"
+                            marginTop={2}
+                            fontWeight={500}
+                        >
+                            Already have an account?{" "}
+                            <StyledLink to="/login">SignIn</StyledLink>
+                        </Typography>
+                    </form>
+                </StyledPaper>
+            </StyledContainer>
+        </ThemeProvider>
     );
 };
 
