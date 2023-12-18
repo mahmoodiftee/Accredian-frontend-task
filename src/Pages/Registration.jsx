@@ -122,94 +122,98 @@ const Registration = () => {
         axios
             .post("http://localhost:8081/signup", userInfo)
             .then((res) => {
-                if (res.status === 200 && res.data.affectedRows > 0) {
-                    console.log(res);
+                if (res.data.status === "emailAlreadyUsed") {
+                    toast.error("Email is already used. Please use a different email.");
+                } else if (res.data.status === "success") {
                     toast.success("User created successfully");
                     navigate("/login");
                 } else {
                     toast.error("Failed to create user");
                 }
             })
-            .catch((err) => toast.error(err));
+            .catch((err) => {
+                console.error(err);
+                toast.error("An error occurred while creating the user.");
+            });
+        }
+
+        return (
+            <ThemeProvider theme={theme}>
+                <StyledContainer component="main">
+                    <CssBaseline />
+                    <StyledPaper elevation={3}>
+                        <Typography
+                            variant="h4"
+                            align="center"
+                            fontWeight={600}
+                            color={"#403f3f"}
+                            gutterBottom
+                        >
+                            SignUp
+                        </Typography>
+                        <form onSubmit={handleSignUp} style={{ width: "100%", padding: "0 15px" }}>
+                            <div className="w-full flex justify-center items-center">
+                                <StyledTextField
+                                    label="Username"
+                                    variant="outlined"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="w-full flex justify-center items-center">
+                                <StyledTextField
+                                    label="Email"
+                                    variant="outlined"
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="w-full flex justify-center items-center">
+                                <StyledTextField
+                                    label="Password"
+                                    variant="outlined"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="w-full flex justify-center items-center">
+                                <StyledTextField
+                                    label="Confirm Password"
+                                    variant="outlined"
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="w-full flex justify-center items-center">
+                                <StyledButton type="submit" variant="contained">
+                                    Sign Up
+                                </StyledButton>
+                            </div>
+
+                            <Typography
+                                variant="body2"
+                                align="center"
+                                marginTop={2}
+                                fontWeight={500}
+                            >
+                                Already have an account?{" "}
+                                <StyledLink to="/login">SignIn</StyledLink>
+                            </Typography>
+                        </form>
+                    </StyledPaper>
+                </StyledContainer>
+            </ThemeProvider>
+        );
     };
 
-    return (
-        <ThemeProvider theme={theme}>
-            <StyledContainer component="main">
-                <CssBaseline />
-                <StyledPaper elevation={3}>
-                    <Typography
-                        variant="h4"
-                        align="center"
-                        fontWeight={600}
-                        color={"#403f3f"}
-                        gutterBottom
-                    >
-                        SignUp
-                    </Typography>
-                    <form onSubmit={handleSignUp} style={{ width: "100%", padding: "0 15px" }}>
-                        <div className="w-full flex justify-center items-center">
-                            <StyledTextField
-                                label="Username"
-                                variant="outlined"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="w-full flex justify-center items-center">
-                            <StyledTextField
-                                label="Email"
-                                variant="outlined"
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <div className="w-full flex justify-center items-center">
-                            <StyledTextField
-                                label="Password"
-                                variant="outlined"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <div className="w-full flex justify-center items-center">
-                            <StyledTextField
-                                label="Confirm Password"
-                                variant="outlined"
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <div className="w-full flex justify-center items-center">
-                            <StyledButton type="submit" variant="contained">
-                                Sign Up
-                            </StyledButton>
-                        </div>
-
-                        <Typography
-                            variant="body2"
-                            align="center"
-                            marginTop={2}
-                            fontWeight={500}
-                        >
-                            Already have an account?{" "}
-                            <StyledLink to="/login">SignIn</StyledLink>
-                        </Typography>
-                    </form>
-                </StyledPaper>
-            </StyledContainer>
-        </ThemeProvider>
-    );
-};
-
-export default Registration;
+    export default Registration;
