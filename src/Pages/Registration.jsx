@@ -1,17 +1,60 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { TextField, Button, Typography, Container, Paper } from "@mui/material";
+import {
+    TextField,
+    Button,
+    Typography,
+    Container,
+    Paper,
+    CssBaseline,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const StyledPaper = styled(Paper)({
-    maxWidth: "600px",
-    margin: "auto",
-    padding: "20px",
+const StyledContainer = styled(Container)({
     marginTop: "10vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
 });
 
+const StyledPaper = styled(Paper)({
+    width: "80%",
+    maxWidth: "400px",
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    borderRadius: "15px", // Added border radius
+});
+
+const StyledTextField = styled(TextField)({
+    width: "100%",
+    margin: "10px 0",
+    borderRadius: "8px", // Added border radius
+});
+
+const StyledButton = styled(Button)({
+    width: "100%",
+    marginTop: "20px",
+    backgroundColor: "#403F3F",
+    color: "#fff",
+    borderRadius: "8px", // Added border radius
+    "&:hover": {
+        backgroundColor: "#292929",
+    },
+});
+
+const StyledLink = styled(Link)({
+    marginTop: "20px",
+    fontSize: "12px",
+    color: "#292929",
+    textDecoration: "none",
+    "&:hover": {
+        color: "#777676",
+    },
+});
 const Registration = () => {
     const navigate = useNavigate();
     const [name, setName] = useState("");
@@ -45,61 +88,53 @@ const Registration = () => {
     };
 
     return (
-        <Container>
+        <StyledContainer component="main" maxWidth="xs">
+            <CssBaseline />
             <StyledPaper elevation={3}>
                 <Typography variant="h4" align="center" gutterBottom>
                     Register
                 </Typography>
-                <form onSubmit={handleSignUp}>
-                    <TextField
+                <form
+                    onSubmit={handleSignUp}
+                    style={{ width: "100%", padding: "0 15px" }} // Added width and padding
+                >
+                    <StyledTextField
                         label="Name"
                         variant="outlined"
-                        fullWidth
-                        margin="normal"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
                     />
-                    <TextField
+
+                    <StyledTextField
                         label="Email"
                         variant="outlined"
-                        fullWidth
-                        margin="normal"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-                    <TextField
+
+                    <StyledTextField
                         label="Password"
                         variant="outlined"
-                        fullWidth
-                        margin="normal"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        type="submit"
-                        style={{ marginTop: "20px" }}
-                    >
+
+                    <StyledButton type="submit" variant="contained">
                         Register
-                    </Button>
-                    <Typography
-                        variant="body2"
-                        style={{ marginTop: "20px" }}
-                        align="center"
-                    >
+                    </StyledButton>
+
+                    <Typography variant="body2" align="center">
                         Already have an account?{" "}
-                        <Link to="/login">Sign In</Link>
+                        <StyledLink to="/login">Sign In</StyledLink>
                     </Typography>
                 </form>
             </StyledPaper>
-        </Container>
+        </StyledContainer>
     );
 };
 
