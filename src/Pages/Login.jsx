@@ -2,6 +2,205 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+    TextField,
+    Button,
+    Typography,
+    Container,
+    Paper,
+    CssBaseline,
+} from "@mui/material";
+import { styled } from "@mui/system";
+import axios from "axios";
+import toast from "react-hot-toast";
+const theme = createTheme({
+    components: {
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    "&:hover fieldset": {
+                        borderColor: "#F3f3F3",
+                    },
+                    "&.Mui-focused fieldset": {
+                        borderColor: "#F3f3F3",
+                    },
+                },
+            },
+        },
+    },
+});
+const StyledContainer = styled(Container)({
+    marginTop: "10vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+});
+
+const StyledPaper = styled(Paper)({
+    width: "80%",
+    maxWidth: "400px",
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    borderRadius: "15px",
+    boxShadow: "none",
+    border: "2px solid #F3F3F3",
+});
+
+const StyledTextField = styled(TextField)({
+    width: "85%",
+    margin: "7px 0",
+    backgroundColor: "#F3F3F3",
+    borderRadius: "6px",
+    "& .MuiInputLabel-root": {
+        color: "#403F3F",
+    },
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+            borderColor: "#F3F3F3",
+            color: "#403F3F",
+        },
+        "&:hover fieldset": {
+            borderColor: "#403F3F",
+            color: "#403F3F",
+        },
+        "&.Mui-focused fieldset": {
+            borderColor: "#403F3F",
+            color: "#403F3F",
+        },
+    },
+});
+
+
+
+const StyledButton = styled(Button)({
+    width: "85%",
+    marginTop: "20px",
+    backgroundColor: "#403F3F",
+    color: "#fff",
+    borderRadius: "8px",
+    "&:hover": {
+        backgroundColor: "#292929",
+    },
+});
+
+const StyledLink = styled(Link)({
+    marginTop: "20px",
+    fontSize: "12px",
+    fontWeight: "600",
+    color: "#292929",
+    textDecoration: "none",
+    "&:hover": {
+        color: "#777676",
+    },
+});
+const Registration = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        const userInfo = { email, password };
+
+        if (password.length < 6) {
+            toast.error("Password must be at least 6 characters")
+        }
+        if (!/[A-Z]/.test(password)) {
+            toast.error("Password must contain one uppercase letter")
+        }
+        if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)) {
+            toast.error("Password must contain one special character such as ( @ )")
+        }
+
+        axios.post('http://localhost:8081/login', userInfo)
+            .then(res => {
+                if (res.data === "success") {
+                    setUser(userInfo.email)
+                    console.log(res);
+                    toast.success("User successfully logged in");
+                } else if (res.data === "incorrectPassword") {
+                    console.log(res);
+                    toast.error("Incorrect password");
+                } else if (res.data === "incorrectEmail") {
+                    console.log(res);
+                    toast.error("Incorrect email");
+                } else {
+                    console.log(res);
+                    toast.error("An error occurred during login");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error(err);
+            });
+    };
+
+    return (
+        <ThemeProvider theme={theme}>
+            <StyledContainer component="main">
+                <CssBaseline />
+                <StyledPaper elevation={3}>
+                    <Typography variant="h4" align="center" fontWeight={600} color={'#403f3f'} gutterBottom>
+                        SignIn
+                    </Typography>
+                    <form
+                        onSubmit={handleSignIn}
+                        style={{ width: "100%", padding: "0 15px" }}
+                    >
+                        <div className="w-full flex justify-center items-center">
+                            <StyledTextField
+                                label="Name"
+                                variant="outlined"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="w-full flex justify-center items-center">
+
+                            <StyledTextField
+                                label="Email"
+                                variant="outlined"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="w-full flex justify-center items-center">
+                            <StyledTextField
+                                label="Password"
+                                variant="outlined"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="w-full flex justify-center items-center">
+                            <StyledButton type="submit" variant="contained">
+                                SignIn
+                            </StyledButton>
+                        </div>
+
+                        <Typography variant="body2" align="center" marginTop={2} fontWeight={500}>
+                            Already have an account?{" "}
+                            <StyledLink to="/login">SignUp</StyledLink>
+                        </Typography>
+                    </form>
+                </StyledPaper>
+            </StyledContainer>
+        </ThemeProvider>
+    );
+};
+
+export default Registration;
 
 const Login = () => {
     const [user, setUser] = useState();

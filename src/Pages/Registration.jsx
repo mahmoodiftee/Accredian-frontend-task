@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
     TextField,
     Button,
@@ -11,7 +12,22 @@ import {
 import { styled } from "@mui/system";
 import axios from "axios";
 import toast from "react-hot-toast";
-
+const theme = createTheme({
+    components: {
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    "&:hover fieldset": {
+                        borderColor: "#F3f3F3",
+                    },
+                    "&.Mui-focused fieldset": {
+                        borderColor: "#F3f3F3",
+                    },
+                },
+            },
+        },
+    },
+});
 const StyledContainer = styled(Container)({
     marginTop: "10vh",
     display: "flex",
@@ -26,21 +42,43 @@ const StyledPaper = styled(Paper)({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    borderRadius: "15px", // Added border radius
+    borderRadius: "15px",
+    boxShadow: "none",
+    border: "2px solid #F3F3F3",
 });
 
 const StyledTextField = styled(TextField)({
-    width: "100%",
-    margin: "10px 0",
-    borderRadius: "8px", // Added border radius
+    width: "85%",
+    margin: "7px 0",
+    backgroundColor: "#F3F3F3",
+    borderRadius: "6px",
+    "& .MuiInputLabel-root": {
+        color: "#403F3F",
+    },
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+            borderColor: "#F3F3F3",
+            color: "#403F3F",
+        },
+        "&:hover fieldset": {
+            borderColor: "#403F3F",
+            color: "#403F3F",
+        },
+        "&.Mui-focused fieldset": {
+            borderColor: "#403F3F",
+            color: "#403F3F",
+        },
+    },
 });
 
+
+
 const StyledButton = styled(Button)({
-    width: "100%",
+    width: "85%",
     marginTop: "20px",
     backgroundColor: "#403F3F",
     color: "#fff",
-    borderRadius: "8px", // Added border radius
+    borderRadius: "8px",
     "&:hover": {
         backgroundColor: "#292929",
     },
@@ -49,6 +87,7 @@ const StyledButton = styled(Button)({
 const StyledLink = styled(Link)({
     marginTop: "20px",
     fontSize: "12px",
+    fontWeight: "600",
     color: "#292929",
     textDecoration: "none",
     "&:hover": {
@@ -88,53 +127,63 @@ const Registration = () => {
     };
 
     return (
-        <StyledContainer component="main" maxWidth="xs">
-            <CssBaseline />
-            <StyledPaper elevation={3}>
-                <Typography variant="h4" align="center" gutterBottom>
-                    Register
-                </Typography>
-                <form
-                    onSubmit={handleSignUp}
-                    style={{ width: "100%", padding: "0 15px" }} // Added width and padding
-                >
-                    <StyledTextField
-                        label="Name"
-                        variant="outlined"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-
-                    <StyledTextField
-                        label="Email"
-                        variant="outlined"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-
-                    <StyledTextField
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-
-                    <StyledButton type="submit" variant="contained">
-                        Register
-                    </StyledButton>
-
-                    <Typography variant="body2" align="center">
-                        Already have an account?{" "}
-                        <StyledLink to="/login">Sign In</StyledLink>
+        <ThemeProvider theme={theme}>
+            <StyledContainer component="main">
+                <CssBaseline />
+                <StyledPaper elevation={3}>
+                    <Typography variant="h4" align="center" fontWeight={600} color={'#403f3f'} gutterBottom>
+                        SignUp
                     </Typography>
-                </form>
-            </StyledPaper>
-        </StyledContainer>
+                    <form
+                        onSubmit={handleSignUp}
+                        style={{ width: "100%", padding: "0 15px" }}
+                    >
+                        <div className="w-full flex justify-center items-center">
+                            <StyledTextField
+                                label="Name"
+                                variant="outlined"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="w-full flex justify-center items-center">
+
+                            <StyledTextField
+                                label="Email"
+                                variant="outlined"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="w-full flex justify-center items-center">
+                            <StyledTextField
+                                label="Password"
+                                variant="outlined"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="w-full flex justify-center items-center">
+                            <StyledButton type="submit" variant="contained">
+                                SignUp
+                            </StyledButton>
+                        </div>
+
+                        <Typography variant="body2" align="center" marginTop={2} fontWeight={500}>
+                            Already have an account?{" "}
+                            <StyledLink to="/login">SignIn</StyledLink>
+                        </Typography>
+                    </form>
+                </StyledPaper>
+            </StyledContainer>
+        </ThemeProvider>
     );
 };
 
