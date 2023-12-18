@@ -1,3 +1,4 @@
+import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
@@ -9,16 +10,22 @@ const Registration = () => {
         const password = e.target.password.value;
         const name = e.target.name.value;
         console.log(name, email, password);
-
-        if(password.length < 6){
+        const userInfo = { name, email, password };
+        console.log(userInfo);
+        
+        if (password.length < 6) {
             toast.error("Password must be at least 6 characters")
         }
-        if(!/[A-Z]/.test(password)){
+        if (!/[A-Z]/.test(password)) {
             toast.error("Password must contain one uppercase letter")
         }
-        if(!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)){
+        if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)) {
             toast.error("Password must contain one special character such as ( @ )")
         }
+        axios.post('http://localhost:8081/signup', userInfo)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+
     };
 
 

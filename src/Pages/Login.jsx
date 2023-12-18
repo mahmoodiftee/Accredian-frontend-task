@@ -1,3 +1,5 @@
+import axios from "axios";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const Login = () => {
@@ -6,8 +8,30 @@ const Login = () => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
-        console.log(email, password);
+        const userInfo = { email, password };
+    
+        axios.post('http://localhost:8081/login', userInfo)
+            .then(res => {
+                if (res.data === "success") {
+                    console.log(res);
+                    toast.success("User successfully logged in");
+                } else if (res.data === "incorrectPassword") {
+                    console.log(res);
+                    toast.error("Incorrect password");
+                } else if (res.data === "incorrectEmail") {
+                    console.log(res);
+                    toast.error("Incorrect email");
+                } else {
+                    console.log(res);
+                    toast.error("An error occurred during login");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error(err);
+            });
     };
+    
 
     return (
         <div className="mt-10 h-screen">
