@@ -55,6 +55,9 @@ const StyledTextField = styled(TextField)({
     "& .MuiInputLabel-root": {
         color: "#403F3F",
     },
+    "& .MuiInputLabel-outlined.Mui-focused": {
+        color: "#403F3F",
+    },
     "& .MuiOutlinedInput-root": {
         "& fieldset": {
             borderColor: "#F3F3F3",
@@ -72,10 +75,9 @@ const StyledTextField = styled(TextField)({
 });
 
 
-
 const StyledButton = styled(Button)({
     width: "85%",
-    marginTop: "20px",
+    marginTop: "7px",
     backgroundColor: "#403F3F",
     color: "#fff",
     borderRadius: "8px",
@@ -172,7 +174,7 @@ const Registration = () => {
 
                         <div className="w-full flex justify-center items-center">
                             <StyledButton type="submit" variant="contained">
-                                SignUp
+                                Sign Up
                             </StyledButton>
                         </div>
 
